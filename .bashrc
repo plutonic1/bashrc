@@ -1,7 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-#export DISPLAY=:0.0
-
 alias ls='ls --color=auto'
 alias ll='ls $LS_OPTIONS -l'
 alias l='ls $LS_OPTIONS -lA'
@@ -136,12 +134,6 @@ then
 	export VISUAL=atom
 else
 	export VISUAL=nano
-fi
-
-if [ "$HOSTNAME" == "plutonic-xubuntu" ]; then
-	xrdb -merge ~/.Xresources
-	export PATH=/home/plutonic/scripts:$PATH
-	#hsetroot -cover "/home/plutonic/Bilder/Wallpaper/Calvin and Hobbes Wallpapers/12 - ACraLcw.jpg"
 fi
 
 export LANG=de_DE.UTF-8
