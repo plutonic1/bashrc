@@ -36,6 +36,8 @@ alias ipp='wget -qO- http://ipecho.net/plain ; echo'
 
 alias a='acrylamid compile && acrylamid deploy blog'
 
+alias j='jekyll build && rm -rf /var/www/blog/* && cp -r _site/* /var/www/blog'
+
 alias c='curl -F "f:1=<-" ix.io'
 
 #alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
