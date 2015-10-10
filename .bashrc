@@ -13,7 +13,7 @@ alias egrep='egrep --color=tty'
 
 alias update='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean && updaterc';
 
-alias updaterc='wget -O ~/bashrc https://www.dropbox.com/s/a14420fpoylcq3s/.bashrc?dl=1 && mv ~/bashrc ~/.bashrc && source ~/.bashrc'
+alias updaterc='wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc && mv ~/bashrc ~/.bashrc && source ~/.bashrc'
 
 alias failure="tail /var/log/auth.log | grep failure"
 alias opened="tail /var/log/auth.log | grep opened"
