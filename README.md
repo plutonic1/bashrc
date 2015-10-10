@@ -1,1 +1,4 @@
 # bashrc
+
+
+my .bashrc
