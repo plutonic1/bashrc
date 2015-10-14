@@ -45,7 +45,7 @@ jn() {  #new jekyll post
 	echo "layout: post" >> $f
 	echo "title: $title" >> $f
 	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
-	echo "---" > $f
+	echo "---" >> $f
 }
 
 alias c='curl -F "f:1=<-" ix.io'
