@@ -40,10 +40,11 @@ jn() {  #new jekyll post
 	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
-	f="$(date +%y-%m-%d)-$title2.markdown"
+	f="$(date +%Y-%m-%d)-$title2.markdown"
 	echo "---" > $f
 	echo "layout: post" >> $f
-	echo "title: Blogging Like a Hacker" >> $f
+	echo "title: $title" >> $f
+	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
 	echo "---" > $f
 }
 
