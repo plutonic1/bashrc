@@ -37,9 +37,10 @@ alias a='acrylamid compile && acrylamid deploy blog'
 alias j='jekyll build && rm -rf /var/www/blog/* && cp -r _site/* /var/www/blog'
 
 jn() {  #new jekyll post
+	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
-	f="$(date +%y-%m-%d)-$title.markdown"
+	f="$(date +%y-%m-%d)-$title2.markdown"
 	echo "---" > $f
 	echo "layout: post" >> $f
 	echo "title: Blogging Like a Hacker" >> $f
