@@ -36,6 +36,16 @@ alias a='acrylamid compile && acrylamid deploy blog'
 
 alias j='jekyll build && rm -rf /var/www/blog/* && cp -r _site/* /var/www/blog'
 
+jn() {  #new jekyll post
+	read title
+	title2=$(echo $title | sed 's/ /-/g')
+	f="$(date +%y-%m-%d)-$title.markdown"
+	echo "---" > $f
+	echo "layout: post" >> $f
+	echo "title: Blogging Like a Hacker" >> $f
+	echo "---" > $f
+}
+
 alias c='curl -F "f:1=<-" ix.io'
 
 #alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
