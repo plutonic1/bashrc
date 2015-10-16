@@ -30,11 +30,11 @@ alias h='history | grep $1'
 alias setclip='xclip -selection c'
 alias getclip='xclip -selection clipboard -o'
 
-alias ipp='wget -qO- http://ipecho.net/plain ; echo'
+alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
-alias a='acrylamid compile && acrylamid deploy blog'
+alias j='cd ~/blog && jekyll build && rm -rf /var/www/blog/* && cp -r ~/blog/_site/* /var/www/blog'
 
-alias j='jekyll build && rm -rf /var/www/blog/* && cp -r _site/* /var/www/blog'
+alias c='curl -F "f:1=<-" ix.io'
 
 jn() {  #new jekyll post
 	echo -n "title:"
@@ -47,8 +47,6 @@ jn() {  #new jekyll post
 	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
 	echo "---" >> $f
 }
-
-alias c='curl -F "f:1=<-" ix.io'
 
 #alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
 #alias clang='clang -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
@@ -64,12 +62,6 @@ if $_isxrunning; then
 	export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 	export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 fi
-
-# make multiple shell share same history file
-export HISTSIZE=10000           # bash history will save N commands
-export HISTFILESIZE=${HISTSIZE} # bash will remember N commands
-export HISTCONTROL=ignoreboth   # ingore duplicates and spaces
-export HISTIGNORE='&:ls:ll:la:cd:exit:clear:history:c'
 
 geo() {
 	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list |perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
