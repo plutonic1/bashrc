@@ -32,9 +32,9 @@ alias getclip='xclip -selection clipboard -o'
 
 alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
-alias j='cd ~/blog && jekyll build && rm -rf /var/www/blog/* && cp -r ~/blog/_site/* /var/www/blog'
-
 alias c='curl -F "f:1=<-" ix.io'
+
+alias j='cd ~/blog && jekyll build && rm -rf /var/www/blog/* && cp -r ~/blog/_site/* /var/www/blog'
 
 jn() {  #new jekyll post
 	echo -n "title:"
