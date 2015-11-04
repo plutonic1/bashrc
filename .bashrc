@@ -42,7 +42,7 @@ jn() {  #new jekyll post
 		eval $(ssh-agent -s)
 	fi
 
-	ls -l .ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
+	ls -l ~/.ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
 	git clone git@github.com:plutonic1/blog.git
 	
