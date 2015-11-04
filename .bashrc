@@ -34,9 +34,16 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
 alias c='curl -F "f:1=<-" ix.io'
 
-alias j='cd ~/blog && jekyll build && rm -rf /var/www/blog/* && cp -r ~/blog/_site/* /var/www/blog'
+
 
 jn() {  #new jekyll post
+	eval $(ssh-agent -s)
+	ls -l | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
+	
+	cd /tmp
+	git clone git@github.com:plutonic1/blog.git
+	
+	cd _posts
 	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
@@ -46,6 +53,16 @@ jn() {  #new jekyll post
 	echo "title: $title" >> $f
 	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
 	echo "---" >> $f
+}
+
+js(){
+	cd /tmp/blog
+	jekyll build
+	rm -rf /var/www/blog/*
+	cp -r /tmp/blog/_site/* /var/www/blog
+	git add .
+	git commit -m "$(date)"
+	git push
 }
 
 #alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
