@@ -34,16 +34,15 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
 alias c='curl -F "f:1=<-" ix.io'
 
-
-
 jn() {  #new jekyll post
+	rm -rf /tmp/blog
 	eval $(ssh-agent -s)
 	ls -l | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
 	cd /tmp
 	git clone git@github.com:plutonic1/blog.git
 	
-	cd _posts
+	cd blog/_posts
 	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
