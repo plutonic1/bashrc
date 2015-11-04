@@ -38,11 +38,11 @@ jn() {  #new jekyll post
 	cd
 	rm -rf ~/blog
 	eval $(ssh-agent -s)
-	ls -l | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
+	ls -l .ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
 	git clone git@github.com:plutonic1/blog.git
 	
-	cd blog/_posts
+	cd ~/blog/_posts
 	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
