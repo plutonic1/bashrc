@@ -35,11 +35,11 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 alias c='curl -F "f:1=<-" ix.io'
 
 jn() {  #new jekyll post
-	rm -rf /tmp/blog
+	cd
+	rm -rf ~/blog
 	eval $(ssh-agent -s)
 	ls -l | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
-	cd /tmp
 	git clone git@github.com:plutonic1/blog.git
 	
 	cd blog/_posts
@@ -55,10 +55,10 @@ jn() {  #new jekyll post
 }
 
 js(){
-	cd /tmp/blog
+	cd ~/blog
 	jekyll build
 	rm -rf /var/www/blog/*
-	cp -r /tmp/blog/_site/* /var/www/blog
+	cp -r ~/blog/_site/* /var/www/blog
 	git add .
 	git commit -m "$(date)"
 	git push
