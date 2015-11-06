@@ -34,7 +34,8 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
 alias c='curl -F "f:1=<-" ix.io'
 
-jn() {  #new jekyll post
+
+jg() {
 	cd ~
 	
 	pkill $(pgrep [s]sh-agent)
@@ -48,24 +49,29 @@ jn() {  #new jekyll post
 	if [ ! -d "blog" ]; then
 		echo "clone"
 		git clone git@github.com:plutonic1/blog.git
-		cd blog
 	else
 		echo "fetch"
 		cd blog
 		git fetch
 	fi
 	
+	cd ~
+}
+
+jn() {  #new jekyll post
+	
+	cd ~/blog/_posts/
 	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
-	f="~/blog/_posts/$(date +%Y-%m-%d)-$title2.markdown"
+	f="$(date +%Y-%m-%d)-$title2.markdown"
 	touch $f
 	echo "---" >> $f
 	echo "layout: post" >> $f
 	echo "title: $title" >> $f
 	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
 	echo "---" >> $f
-	echo $f
+	echo "~/blog/_posts/$f"
 }
 
 js(){
