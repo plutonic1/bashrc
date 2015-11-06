@@ -44,9 +44,11 @@ jn() {  #new jekyll post
 	ls -l ~/.ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
 	if [ ! -d "~/blog" ]; then
+		echo "clone"
 		git clone git@github.com:plutonic1/blog.git
 		cd ~/blog
 	else
+		echo "fetch"
 		cd ~/blog
 		git fetch
 	fi
