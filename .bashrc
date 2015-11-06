@@ -37,19 +37,21 @@ alias c='curl -F "f:1=<-" ix.io'
 jn() {  #new jekyll post
 	cd ~
 	
-	if ! pgrep [s]sh-agent ; then
-		eval $(ssh-agent -s)
-	fi
+	pkill $(pgrep [s]sh-agent)
+	
+	#if ! pgrep [s]sh-agent ; then
+	#	eval $(ssh-agent -s)
+	#fi
 
 	ls -l ~/.ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
-	if [ ! -d "~/blog" ]; then
+	if [ ! -d "blog" ]; then
 		echo "clone"
 		git clone git@github.com:plutonic1/blog.git
-		cd ~/blog
+		cd blog
 	else
 		echo "fetch"
-		cd ~/blog
+		cd blog
 		git fetch
 	fi
 	
