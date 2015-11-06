@@ -59,7 +59,8 @@ jn() {  #new jekyll post
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
 	f="~/blog/_posts/$(date +%Y-%m-%d)-$title2.markdown"
-	echo "---" > $f
+	touch $f
+	echo "---" >> $f
 	echo "layout: post" >> $f
 	echo "title: $title" >> $f
 	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
