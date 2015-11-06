@@ -35,27 +35,32 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 alias c='curl -F "f:1=<-" ix.io'
 
 jn() {  #new jekyll post
-	cd
-	rm -rf ~/blog
-
+	cd ~
+	
 	if ! pgrep [s]sh-agent ; then
 		eval $(ssh-agent -s)
 	fi
 
 	ls -l ~/.ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
 	
-	git clone git@github.com:plutonic1/blog.git
+	if [ ! -d "~/blog" ]; then
+		git clone git@github.com:plutonic1/blog.git
+		cd ~/blog
+	else
+		cd ~/blog
+		git fetch
+	fi
 	
-	cd ~/blog/_posts
 	echo -n "title:"
 	read title
 	title2=$(echo $title | sed 's/ /-/g')
-	f="$(date +%Y-%m-%d)-$title2.markdown"
+	f="~/blog/_posts/$(date +%Y-%m-%d)-$title2.markdown"
 	echo "---" > $f
 	echo "layout: post" >> $f
 	echo "title: $title" >> $f
 	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
 	echo "---" >> $f
+	echo $f
 }
 
 js(){
