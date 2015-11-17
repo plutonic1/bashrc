@@ -186,15 +186,12 @@ export LANG=de_DE.UTF-8
 
 Decoration1="\[\e[90m\]╔["
 RegularUserPart="\[\e[36m\]\u"
-RootUserPart="\[\e[31;5m\]\u\[\e[m\]"
-Between="\[\e[90m\]@"
-HostPart="\[\e[32m\]\h:"
+RootUserPart="\[\e[31;1m\]\u\[\e[m\]"
+Between="\[\e[37m\]@"
+HostPart="\[\e[92m\]\h:"
 PathPart="\[\e[93;1m\]\w"
 Decoration2="\[\e[90m\]]\n╚>\[\e[m\]"
 case `id -u` in
     0) export PS1="$Decoration1$RootUserPart$Between$HostPart$PathPart$Decoration2# ";;
     *) export PS1="$Decoration1$RegularUserPart$Between$HostPart$PathPart$Decoration2$ ";;
 esac
-
-
-
