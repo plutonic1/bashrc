@@ -180,5 +180,21 @@ export LANG=de_DE.UTF-8
 #export LC_ALL=de_DE.UTF-8
 #export LANGUAGE=de_DE.UTF-8
  
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
-PS1='\[\033[1;33m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h\[\033[1;37m\] \[\033[1;31m\]\w \[\033[1;37m\]> \[\033[0m\]'
+#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+#PS1='\[\033[1;33m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h\[\033[1;37m\] \[\033[1;31m\]\w \[\033[1;37m\]> \[\033[0m\]'
+
+
+Decoration1="\[\e[90m\]╔["
+RegularUserPart="\[\e[36m\]\u"
+RootUserPart="\[\e[31;5m\]\u\[\e[m\]"
+Between="\[\e[90m\]@"
+HostPart="\[\e[32m\]\h:"
+PathPart="\[\e[93;1m\]\w"
+Decoration2="\[\e[90m\]]\n╚>\[\e[m\]"
+case `id -u` in
+    0) export PS1="$Decoration1$RootUserPart$Between$HostPart$PathPart$Decoration2# ";;
+    *) export PS1="$Decoration1$RegularUserPart$Between$HostPart$PathPart$Decoration2$ ";;
+esac
+
+
+
