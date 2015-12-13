@@ -34,6 +34,13 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
 alias c='curl -F "f:1=<-" ix.io'
 
+#ecryptfs mount
+if [ -r "${HOME}/.ecryptfs/auto-mount" ]; then
+  grep -qs "${HOME} ecryptfs" /proc/mounts
+  if [ $? -ne 0 ]; then
+    mount -i "${HOME}" ; cd "${HOME}"
+  fi
+fi
 
 jg() {
 	cd ~
