@@ -27,20 +27,9 @@ alias i='sudo apt-get install $1'
 
 alias h='history | grep $1'
 
-alias setclip='xclip -selection c'
-alias getclip='xclip -selection clipboard -o'
-
 alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
 alias c='curl -F "f:1=<-" ix.io'
-
-#ecryptfs mount
-if [ -r "${HOME}/.ecryptfs/auto-mount" ]; then
-  grep -qs "${HOME} ecryptfs" /proc/mounts
-  if [ $? -ne 0 ]; then
-    mount -i "${HOME}" ; cd "${HOME}"
-  fi
-fi
 
 jg() {
 	cd ~
@@ -187,8 +176,6 @@ export LANG=de_DE.UTF-8
 #export LC_ALL=de_DE.UTF-8
 #export LANGUAGE=de_DE.UTF-8
  
-#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
-#PS1='\[\033[1;33m\]\u\[\033[1;37m\]@\[\033[1;32m\]\h\[\033[1;37m\] \[\033[1;31m\]\w \[\033[1;37m\]> \[\033[0m\]'
 
 LS_COLORS='di=36:ln=32:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43':
 export LS_COLORS
