@@ -31,54 +31,7 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
 alias c='curl -F "f:1=<-" ix.io'
 
-jg() {
-	cd ~
-	
-	pkill $(pgrep [s]sh-agent)
-	
-	#if ! pgrep [s]sh-agent ; then
-	#	eval $(ssh-agent -s)
-	#fi
-
-	ls -l ~/.ssh | grep -E "\-rw-{7}" | grep -E -o ":.*$" | grep -o -E "\w+$" | xargs -i ssh-add ~/.ssh/{}
-	
-	if [ ! -d "blog" ]; then
-		echo "clone"
-		git clone git@github.com:plutonic1/blog.git
-	else
-		echo "fetch"
-		cd blog
-		git fetch
-	fi
-	
-	cd ~
-}
-
-jn() {  #new jekyll post
-	
-	cd ~/blog/_posts/
-	echo -n "title:"
-	read title
-	title2=$(echo $title | sed 's/ /-/g')
-	f="$(date +%Y-%m-%d)-$title2.markdown"
-	touch $f
-	echo "---" >> $f
-	echo "layout: post" >> $f
-	echo "title: $title" >> $f
-	echo "date: $(date +'%Y-%m-%d %H:%M:%S')" >> $f
-	echo "---" >> $f
-	echo "~/blog/_posts/$f"
-}
-
-js(){
-	cd ~/blog
-	jekyll build
-	rm -rf /var/www/blog/*
-	cp -r ~/blog/_site/* /var/www/blog
-	git add .
-	git commit -m "$(date)"
-	git push
-}
+alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 #alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
 #alias clang='clang -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
@@ -154,6 +107,7 @@ extract() {
            *.zip)       unzip $1       ;;
            *.Z)         uncompress $1  ;;
            *.7z)        7z x $1        ;;
+           *.xz         tar --xz -xvf $1;;
            *)           echo "don't know how to extract '$1'..." ;;
        esac
    else
