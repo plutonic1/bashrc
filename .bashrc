@@ -34,7 +34,6 @@ alias c='curl -F "f:1=<-" ix.io'
 alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 #alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
-#alias clang='clang -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
 
 # colored manpages
 if $_isxrunning; then
@@ -86,7 +85,6 @@ p() {
 
 k() {
 	if ! screen -list | grep -q "kopierscreen"; then
-		echo "starte screen"
 		screen -S kopierscreen -T xterm
 	else
 		screen -rx kopierscreen
