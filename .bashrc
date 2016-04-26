@@ -59,7 +59,9 @@ update() {
 			sudo apt-get upgrade -y
 			sudo apt-get dist-upgrade -y
 			sudo apt-get autoclean
-			wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc && mv ~/bashrc ~/.bashrc && source ~/.bashrc
+			wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc 
+			mv ~/bashrc ~/.bashrc 
+			source ~/.bashrc
 	fi
 }
 
