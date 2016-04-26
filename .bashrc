@@ -1,6 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-if uname -a | grep -q "cyanogenmod"
+if uname -a | grep -qv "cyanogenmod"
 	then
 	alias ls='ls --color'
 	alias ll='ls $LS_OPTIONS -l'
