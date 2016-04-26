@@ -49,12 +49,16 @@ fi
 update() {
 	if uname -a | grep -q "cyanogenmod"
 		then 
-			echo cyanogenmod
-			apt update && apt upgrade
-			
+			apt update && apt upgrade -y
+			cd $HOME
+			rm .bashrc
+			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > .bashrc
+			. .bashrc
 		else
-			echo linux
-			sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean
+			sudo apt-get update -y
+			sudo apt-get upgrade -y
+			sudo apt-get dist-upgrade -y
+			sudo apt-get autoclean
 			wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc && mv ~/bashrc ~/.bashrc && source ~/.bashrc
 	fi
 }
