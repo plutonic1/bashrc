@@ -1,15 +1,16 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-alias ls='ls --color'
-alias ll='ls $LS_OPTIONS -l'
-alias l='ls $LS_OPTIONS -lA'
-alias last='last -i'
+if uname -a | grep -q "cyanogenmod"
+	then
+	alias ls='ls --color'
+	alias ll='ls $LS_OPTIONS -l'
+	alias l='ls $LS_OPTIONS -lA'
+	alias last='last -i'
 
-alias grep='grep --color=tty'
-alias fgrep='fgrep --color=tty'
-alias egrep='egrep --color=tty'
-
-alias updaterc='wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc && mv ~/bashrc ~/.bashrc && source ~/.bashrc'
+	alias grep='grep --color=tty'
+	alias fgrep='fgrep --color=tty'
+	alias egrep='egrep --color=tty'
+fi
 
 alias failure="tail /var/log/auth.log | grep failure"
 alias opened="tail /var/log/auth.log | grep opened"
@@ -47,10 +48,14 @@ fi
 
 update() {
 	if uname -a | grep -q "cyanogenmod"
-			#then apt update && apt upgrade && updaterc
-			#else apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean && updaterc
-			then echo cyanogenmod
-			else echo linux
+		then 
+			echo cyanogenmod
+			apt update && apt upgrade
+			
+		else
+			echo linux
+			sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean
+			wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc && mv ~/bashrc ~/.bashrc && source ~/.bashrc
 	fi
 }
 
