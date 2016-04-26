@@ -9,8 +9,6 @@ alias grep='grep --color=tty'
 alias fgrep='fgrep --color=tty'
 alias egrep='egrep --color=tty'
 
-alias update='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean && updaterc';
-
 alias updaterc='wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc && mv ~/bashrc ~/.bashrc && source ~/.bashrc'
 
 alias failure="tail /var/log/auth.log | grep failure"
@@ -46,6 +44,14 @@ if $_isxrunning; then
 	export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 	export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 fi
+
+
+update() {
+	if uname -a | grep -q "cyanogenmod"
+		then apt update && apt upgrade && updaterc
+		else apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean && updaterc
+	fi
+}
 
 geo() {
 	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list |perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
@@ -105,7 +111,7 @@ extract() {
 			*.zip)       unzip $1       ;;
 			*.Z)         uncompress $1  ;;
 			*.7z)        7z x $1        ;;
-			*.xz)         tar --xz -xvf $1;;
+			*.xz)        tar --xz -xvf $1;;
 			
 			*)           echo "don't know how to extract '$1'..." ;;
 		esac
