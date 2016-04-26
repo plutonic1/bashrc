@@ -45,13 +45,15 @@ if $_isxrunning; then
 	export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 fi
 
-
 update() {
 	if uname -a | grep -q "cyanogenmod"
-		then apt update && apt upgrade && updaterc
-		else apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean && updaterc
+			#then apt update && apt upgrade && updaterc
+			#else apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoclean && updaterc
+			then echo cyanogenmod
+			else echo linux
 	fi
 }
+
 
 geo() {
 	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list |perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
