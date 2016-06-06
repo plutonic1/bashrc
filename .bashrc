@@ -1,5 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+echo "bashrc version 0.1"
+
 if uname -a | grep -qv "cyanogenmod"
 	then
 	alias ls='ls --color'
@@ -80,11 +82,6 @@ geo() {
 	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list |perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
 }
 
-set_random_wallpaper() {
-	file=$(find ~/Bilder/ -regex '.*\.\(jpg\|png\|jpeg\)' | grep -v Smartphone | shuf -n 1)
-	hsetroot -cover "$file"
-}
-
 key() {
 	gpg --keyserver pgpkeys.mit.edu --recv-key $1
 	gpg -a --export $1 | sudo apt-key add -
@@ -144,9 +141,6 @@ extract() {
 		echo "'$1' is not a valid file!"
 	fi
 }
- 
-shopt -q -s cdspell
-unset MAILCHECK
 
 file="/usr/bin/atom"
 if [ -f "$file" ]
@@ -157,8 +151,6 @@ else
 fi
 
 export LANG=de_DE.UTF-8
-#export LC_ALL=de_DE.UTF-8
-#export LANGUAGE=de_DE.UTF-8
  
 
 LS_COLORS='di=36:ln=32:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43':
