@@ -47,18 +47,28 @@ if $_isxrunning; then
 fi
 
 update() {
-	if uname -a | grep -q "cyanogenmod"
-		then 
+	if [ uname -a | grep -q "cyanogenmod" ]; then 
 			apt update && apt upgrade -y
-			cd $HOME
-			rm .bashrc
-			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > .bashrc
-			. .bashrc
+			updaterc
+		elif [ uname -a | grep -q "CYGWIN" ]; then
+			apt-cyg update
 		else
 			sudo apt-get update -y
 			sudo apt-get upgrade -y
 			sudo apt-get dist-upgrade -y
 			sudo apt-get autoclean
+			updaterc
+	fi
+}
+
+updaterc() {
+	if uname -a | grep -q "cyanogenmod"
+		then 
+			cd $HOME
+			rm .bashrc
+			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > .bashrc
+			. .bashrc
+		else
 			wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc 
 			mv ~/bashrc ~/.bashrc 
 			source ~/.bashrc
@@ -81,6 +91,7 @@ key() {
 }
 
 r() {
+	sudo false
 	echo reboot in ...
 	
 	for i in {5..1}
@@ -92,6 +103,7 @@ r() {
 }
 
 p() {
+	sudo false
 	echo poweroff in ...
 
 	for i in {10..1}
