@@ -1,6 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-if [ "$SSH_TTY" ]
+if [ $TERM != 'dumb'  ]
 then
 	echo "bashrc version 0.1a"
 fi
