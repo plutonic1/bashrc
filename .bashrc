@@ -1,6 +1,9 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-echo "bashrc version 0.1"
+if [ "$SSH_TTY" ]
+then
+	echo "bashrc version 0.1a"
+fi
 
 if uname -a | grep -qv "cyanogenmod"
 	then
@@ -23,8 +26,14 @@ alias speedtest='wget -O /dev/null http://speedtest.wdc01.softlayer.com/download
 
 alias vnc='vncserver :1 -geometry 1600x900 -depth 24'
 
-alias s='apt-cache search $1'
-alias i='sudo apt-get install $1'
+if uname -a | grep -qv "cyanogenmod"
+	then
+	alias s='apt-cache search $1'
+	alias i='sudo apt-get install $1'
+else
+	alias s='apt search $1'
+	alias i='apt install $1'
+fi
 
 alias h='history | grep $1'
 
@@ -33,8 +42,6 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 alias c='curl -F "f:1=<-" ix.io'
 
 alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
-
-#alias g++='g++ -Wredundant-decls -Wcast-align -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wextra -Wall -Werror -Winvalid-pch -Wredundant-decls -Wformat=2 -Wmissing-format-attribute -Wformat-nonliteral -std=c++0x'
 
 # colored manpages
 if $_isxrunning; then
@@ -142,16 +149,8 @@ extract() {
 	fi
 }
 
-file="/usr/bin/atom"
-if [ -f "$file" ]
-then
-	export VISUAL=atom
-else
-	export VISUAL=nano
-fi
-
+export VISUAL=nano
 export LANG=de_DE.UTF-8
- 
 
 LS_COLORS='di=36:ln=32:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43':
 export LS_COLORS
