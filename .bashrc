@@ -56,10 +56,10 @@ if $_isxrunning; then
 fi
 
 update() {
-	if [ uname -a | grep -q "cyanogenmod" ]; then 
+	if uname -a | grep -q "cyanogenmod"; then 
 			apt update && apt upgrade -y
 			updaterc
-		elif [ uname -a | grep -q "CYGWIN" ]; then
+		elif uname -a | grep -q "CYGWIN"; then
 			apt-cyg update
 		else
 			sudo apt-get update -y
