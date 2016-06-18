@@ -123,7 +123,7 @@ p() {
 
 k() {
 	if ! tmux ls | grep -q "copy"; then
-		tmux new -s copy -T xterm
+		tmux new -s copy
 	else
 		tmux a -t r copy
 	fi
