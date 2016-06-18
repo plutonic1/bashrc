@@ -3,6 +3,7 @@
 if [ $TERM != 'dumb'  ]
 then
 	echo "bashrc version 0.1a"
+	export TERM=xterm #tmux workaround
 fi
 
 if uname -a | grep -qv "cyanogenmod"
@@ -42,6 +43,8 @@ alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 alias c='curl -F "f:1=<-" ix.io'
 
 alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
+
+alias a='tmux a'
 
 # colored manpages
 if $_isxrunning; then
@@ -119,10 +122,10 @@ p() {
 }
 
 k() {
-	if ! screen -list | grep -q "kopierscreen"; then
-		screen -S kopierscreen -T xterm
+	if ! tmux ls | grep -q "copy"; then
+		tmux new -s copy -T xterm
 	else
-		screen -rx kopierscreen
+		tmux a -t r copy
 	fi
 }
 
