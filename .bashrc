@@ -98,7 +98,6 @@ key() {
 }
 
 r() {
-	sudo false
 	echo reboot in ...
 	
 	for i in {5..1}
@@ -110,7 +109,6 @@ r() {
 }
 
 p() {
-	sudo false
 	echo poweroff in ...
 
 	for i in {10..1}
@@ -123,7 +121,7 @@ p() {
 
 k() {
 	if ! tmux ls | grep -q "copy"; then
-		tmux new -s copy -T xterm
+		tmux new -s copy
 	else
 		tmux a -t r copy
 	fi
