@@ -46,18 +46,6 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 alias a='tmux a'
 
-# colored manpages
-if $_isxrunning; then
-	export PAGER=less
-	export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-	export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-	export LESS_TERMCAP_me=$'\E[0m'           # end mode
-	export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-	export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
-	export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-	export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
-fi
-
 update() {
 	if uname -a | grep -q "cyanogenmod"; then 
 			apt update && apt upgrade -y
@@ -105,7 +93,7 @@ r() {
 		echo -e "$i"
 		sleep 1
 	done
-	reboot && exit
+	sudo reboot && exit
 }
 
 p() {
@@ -116,7 +104,7 @@ p() {
 		echo -e "$i"
 		sleep 1
 	done
-	poweroff && exit
+	sudo poweroff && exit
 }
 
 k() {
@@ -155,6 +143,18 @@ export LANG=de_DE.UTF-8
 
 #LS_COLORS='di=36:ln=32:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43':
 #export LS_COLORS
+
+# colored manpages
+if $_isxrunning; then
+	export PAGER=less
+	export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+	export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+	export LESS_TERMCAP_me=$'\E[0m'           # end mode
+	export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+	export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
+	export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+	export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+fi
 
 Decoration1="\[\e[90m\]╔["
 RegularUserPart="\[\e[36m\]\u"
