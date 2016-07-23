@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.1b"
+	echo "bashrc version 0.1c"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -153,8 +153,8 @@ extract() {
 export VISUAL=nano
 export LANG=de_DE.UTF-8
 
-LS_COLORS='di=36:ln=32:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43':
-export LS_COLORS
+#LS_COLORS='di=36:ln=32:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43':
+#export LS_COLORS
 
 Decoration1="\[\e[90m\]╔["
 RegularUserPart="\[\e[36m\]\u"
