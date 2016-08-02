@@ -37,7 +37,7 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 alias a='tmux a'
 
 s(){
-	if which apt-get &> /dev/null; then
+	if which apt-cache &> /dev/null; then
 		apt-cache search $1
 	elif which pacman &> /dev/null; then
 		pacman -Ss $1
