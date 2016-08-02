@@ -2,12 +2,11 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.1c"
+	echo "bashrc version 0.2a"
 	export TERM=xterm #tmux workaround
 fi
 
-if uname -a | grep -qv "cyanogenmod"
-	then
+if uname -a | grep -qv "cyanogenmod";	then
 	alias ls='ls --color'
 	alias ll='ls $LS_OPTIONS -l'
 	alias l='ls $LS_OPTIONS -lA'
@@ -27,15 +26,6 @@ alias speedtest='wget -O /dev/null http://speedtest.wdc01.softlayer.com/download
 
 alias vnc='vncserver :1 -geometry 1600x900 -depth 24'
 
-if uname -a | grep -qv "cyanogenmod"
-	then
-	alias s='apt-cache search $1'
-	alias i='sudo apt-get install $1'
-else
-	alias s='apt search $1'
-	alias i='apt install $1'
-fi
-
 alias h='history | grep $1'
 
 alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
@@ -46,32 +36,49 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 alias a='tmux a'
 
+s(){
+	if which apt-get &> /dev/null; then
+		apt-cache search $1
+	elif which pacman &> /dev/null; then
+		pacman -Ss $1
+	fi
+}
+
+i(){
+	if which apt-get &> /dev/null; then
+		sudo apt-get install $1
+	elif which pacman &> /dev/null; then
+		sudo pacman -S $1
+	fi
+}
+
 update() {
-	if uname -a | grep -q "cyanogenmod"; then 
+	if which apt &> /dev/null; then
 			apt update && apt upgrade -y
 			updaterc
-		elif uname -a | grep -q "CYGWIN"; then
+		elif which apt-cyg &> /dev/null; then
 			apt-cyg update
-		else
+			updaterc
+		elif which apt-get &> /dev/null; then
 			sudo apt-get update -y
 			sudo apt-get upgrade -y
 			sudo apt-get dist-upgrade -y
 			sudo apt-get autoclean
 			updaterc
+		elif which pacman &> /dev/null; then
+			sudo pacman -Syu
 	fi
 }
 
 updaterc() {
-	if uname -a | grep -q "cyanogenmod"
-		then 
-			cd $HOME
-			rm .bashrc
-			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > .bashrc
-			. .bashrc
+	if which curl &> /dev/null; then
+			rm ~/.bashrc
+			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > ~/.bashrc
+			. ~/.bashrc
 		else
-			wget -O ~/bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc 
-			mv ~/bashrc ~/.bashrc 
-			source ~/.bashrc
+			rm ~/.bashrc
+			wget -O ~/.bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc
+			. ~/.bashrc
 	fi
 }
 
@@ -87,9 +94,9 @@ key() {
 
 r() {
 	echo reboot in ...
-	
+
 	for i in {5..1}
-	do 
+	do
 		echo -e "$i"
 		sleep 1
 	done
@@ -100,7 +107,7 @@ p() {
 	echo poweroff in ...
 
 	for i in {10..1}
-	do 
+	do
 		echo -e "$i"
 		sleep 1
 	done
@@ -130,7 +137,7 @@ extract() {
 			*.Z)         uncompress $1  ;;
 			*.7z)        7z x $1        ;;
 			*.xz)        tar --xz -xvf $1;;
-			
+
 			*)           echo "don't know how to extract '$1'..." ;;
 		esac
 	else
@@ -163,6 +170,7 @@ Between="\[\e[37m\]@"
 HostPart="\[\e[92m\]\h:"
 PathPart="\[\e[93;1m\]\w"
 Decoration2="\[\e[90m\]]\n╚>\[\e[m\]"
+
 case `id -u` in
     0) export PS1="$Decoration1$RootUserPart$Between$HostPart$PathPart$Decoration2# ";;
     *) export PS1="$Decoration1$RegularUserPart$Between$HostPart$PathPart$Decoration2$ ";;
