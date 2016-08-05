@@ -145,6 +145,25 @@ extract() {
 	fi
 }
 
+encrypt(){
+  echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
+	if openssl aes-256-cbc -a -salt -in $1 -out $1.encrypt; then
+    shred -f --zero $1
+    rm -f $1
+  fi
+}
+
+decrypt(){
+  echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
+  decrypt_filename=$(echo $1 | sed -r 's/.encrypt$//')
+  if openssl aes-256-cbc -d -a -in $1 -out $decrypt_filename; then
+    shred -f --zero $1
+    rm -f $1
+  else
+    rm -f $decrypt_filename
+  fi
+}
+
 export VISUAL=nano
 export LANG=de_DE.UTF-8
 
