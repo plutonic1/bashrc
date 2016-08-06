@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.3a"
+	echo "bashrc version 0.3b"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -75,10 +75,12 @@ updaterc() {
 			rm ~/.bashrc
 			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > ~/.bashrc
 			. ~/.bashrc
-		else
+		elif which wget &> /dev/null; then
 			rm ~/.bashrc
 			wget -O ~/.bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc
 			. ~/.bashrc
+		else
+			echo "no download tool found"
 	fi
 }
 
