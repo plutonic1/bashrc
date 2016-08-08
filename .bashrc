@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.3b"
+	echo "bashrc version 0.3c"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -88,7 +88,6 @@ geo() {
 
 key() {
 	gpg --keyserver pgpkeys.mit.edu --recv-key $1
-	gpg -a --export $1 | sudo apt-key add -
 }
 
 r() {
