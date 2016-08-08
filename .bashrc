@@ -17,10 +17,7 @@ if uname -a | grep -qv "cyanogenmod";	then
 	alias egrep='egrep --color=tty'
 fi
 
-alias failure="tail /var/log/auth.log | grep failure"
-alias opened="tail /var/log/auth.log | grep opened"
-
-alias vpn="sudo cat /var/log/openvpn | grep 'Learn:\|connection-reset'"
+alias vpn="sudo grep 'Learn:\|connection-reset' /var/log/openvpn"
 
 alias speedtest='wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test1000.zip'
 
