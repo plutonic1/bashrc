@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.3c"
+	echo "bashrc version 0.3d"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -25,7 +25,7 @@ alias vnc='vncserver :1 -geometry 1600x900 -depth 24'
 
 alias h='history | grep $1'
 
-alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
+alias ipp='wget -qO- http://ipecho.net/plain'
 
 alias c='curl -F "f:1=<-" ix.io'
 
