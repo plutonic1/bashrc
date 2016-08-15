@@ -63,7 +63,8 @@ update() {
 			sudo apt-get autoclean
 			updaterc
 		elif which pacman &> /dev/null; then
-			sudo pacman -Syu
+			#sudo pacman -Syu
+			yaourt -Syu --aur
 	fi
 }
 
