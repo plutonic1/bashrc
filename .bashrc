@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.3f"
+	echo "bashrc version 0.4"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -51,20 +51,23 @@ i(){
 
 update() {
 	if which apt &> /dev/null; then
-			apt update && apt upgrade -y
-			updaterc
-		elif which apt-cyg &> /dev/null; then
-			apt-cyg update
-			updaterc
-		elif which apt-get &> /dev/null; then
-			sudo apt-get update -y
-			sudo apt-get upgrade -y
-			sudo apt-get dist-upgrade -y
-			sudo apt-get autoclean
-			updaterc
-		elif which pacman &> /dev/null; then
-			#sudo pacman -Syu
-			yaourt -Syu --aur
+        apt update && apt upgrade -y
+        #updaterc
+    elif which apt-cyg &> /dev/null; then
+        apt-cyg update
+        updaterc
+    elif which apt-get &> /dev/null; then
+        echo 1
+        sudo apt-get update -y
+        echo 2
+        sudo apt-get upgrade -y
+        sudo apt-get dist-upgrade -y
+        sudo apt-get autoclean
+        updaterc
+    elif which pacman &> /dev/null; then
+        #sudo pacman -Syu
+        yaourt -Syu --aur
+        updaterc
 	fi
 }
 
