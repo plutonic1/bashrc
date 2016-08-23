@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.4a"
+	echo "bashrc version 0.3f"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -27,7 +27,7 @@ alias h='history | grep $1'
 
 alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
-alias ix='curl -F "f:1=<-" ix.io'
+alias c='curl -F "f:1=<-" ix.io'
 
 alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
@@ -67,7 +67,6 @@ update() {
     elif which pacman &> /dev/null; then
         #sudo pacman -Syu
         yaourt -Syu --aur
-        updaterc
 	fi
 }
 
