@@ -2,7 +2,7 @@
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.4a"
+	echo "bashrc version 0.4b"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -52,7 +52,7 @@ i(){
 update() {
 	if which apt &> /dev/null; then
         #apt update && apt upgrade -y
-        #updaterc
+        updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
         updaterc
