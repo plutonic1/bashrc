@@ -50,10 +50,11 @@ i(){
 }
 
 update() {
-	if which apt &> /dev/null; then
+	#if which apt &> /dev/null; then
         #apt update && apt upgrade -y
         updaterc
-    elif which apt-cyg &> /dev/null; then
+    #elif which apt-cyg &> /dev/null; then
+    if which apt-apt &> /dev/null; then
         apt-cyg update
         updaterc
     elif which apt-get &> /dev/null; then
