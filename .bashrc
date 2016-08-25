@@ -66,7 +66,7 @@ i(){
 
 update() {
 	if which apt &> /dev/null; then
-        if which apt &> /dev/null; then
+        if which sudo &> /dev/null; then
             sudo apt update -y
             sudo apt upgrade -y
             #sudo apt autoclean
@@ -84,6 +84,7 @@ update() {
         #sudo apt-get upgrade -y
         #sudo apt-get autoclean
         #updaterc
+        false #only to prevent a syntax error
     elif which pacman &> /dev/null; then
         yaourt -Syu --aur
         updaterc
