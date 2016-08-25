@@ -31,7 +31,7 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 alias a='tmux a'
 
-#takae from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+#taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
 alias mount='mount | column -t'
 
