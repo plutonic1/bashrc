@@ -1,8 +1,6 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.4a"
+	echo "bashrc version 0.4c"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -33,6 +31,23 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 alias a='tmux a'
 
+#takae from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+
+alias mount='mount | column -t'
+
+# do not delete / or prompt if deleting more than 3 files at a time #
+alias rm='rm -I --preserve-root'
+ 
+# confirmation #
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+ 
+# Parenting changing perms on / #
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+
 s(){
 	if which apt-cache &> /dev/null; then
 		apt-cache search $1
@@ -51,21 +66,25 @@ i(){
 
 update() {
 	if which apt &> /dev/null; then
-        #apt update && apt upgrade -y
-        #updaterc
+        if which apt &> /dev/null; then
+            sudo apt update -y
+            sudo apt upgrade -y
+            #sudo apt autoclean
+        else
+            apt update -y
+            apt upgrade -y
+            #apt autoclean
+        fi
+        updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
         updaterc
     elif which apt-get &> /dev/null; then
-        echo 1
-        sudo apt-get update -y
-        echo 2
-        sudo apt-get upgrade -y
-        sudo apt-get dist-upgrade -y
-        sudo apt-get autoclean
-        updaterc
+        #sudo apt-get update -y
+        #sudo apt-get upgrade -y
+        #sudo apt-get autoclean
+        #updaterc
     elif which pacman &> /dev/null; then
-        #sudo pacman -Syu
         yaourt -Syu --aur
         updaterc
 	fi
@@ -87,7 +106,7 @@ updaterc() {
 
 
 geo() {
-	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list |perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
+	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
 }
 
 key() {
