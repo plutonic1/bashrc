@@ -1,6 +1,6 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.4c"
+	echo "bashrc version 0.5"
 	export TERM=xterm #tmux workaround
 fi
 
