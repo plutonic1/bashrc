@@ -48,6 +48,11 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
+if [ -f ".aliases" ];
+then
+    . .aliases
+fi
+
 s(){
 	if which apt-cache &> /dev/null; then
 		apt-cache search $1
@@ -184,6 +189,47 @@ decrypt(){
   else
     rm -f $decrypt_filename
   fi
+}
+
+
+t4(){
+    SESSION=2
+
+    tmux has-session -t $SESSION &> /dev/null
+
+    if [ $? -eq 0 ]; then
+        tmux attach -t $SESSION
+        exit 0;
+    fi
+                                    
+    tmux new-session -d -s $SESSION
+    tmux split-window -h -t $SESSION:0
+    tmux split-window -h -t $SESSION:0
+    tmux split-window -h -t $SESSION:0
+    tmux select-layout -t $SESSION "a490,119x39,0,0[120x19,0,0{59x19,0,0,11,60x19,60,0,12},120x19,0,20{59x19,0,20,13,60x19,60,20,18}]"
+    tmux attach -t $SESSION
+}
+
+t2(){
+    SESSION=2
+
+    tmux has-session -t $SESSION &> /dev/null
+
+    if [ $? -eq 0 ]; then
+        tmux attach -t $SESSION
+        exit 0;
+    fi
+                                    
+    tmux new-session -d -s $SESSION
+    
+    if [ $1 == 'v'  ]
+    then
+        tmux split-window -v -t $SESSION:0
+    else
+        tmux split-window -h -t $SESSION:0
+    fi
+
+    tmux attach -t $SESSION
 }
 
 export VISUAL=nano
