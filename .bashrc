@@ -1,6 +1,6 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5"
+	echo "bashrc version 0.5a"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -47,6 +47,22 @@ alias ln='ln -i'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
+
+
+# http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 if [ -f ".aliases" ];
 then
@@ -230,6 +246,30 @@ t2(){
     fi
 
     tmux attach -t $SESSION
+}
+
+#pls+gib.sh from https://gist.github.com/AndrewBelt/89d1592cb39f544c7e1d
+
+# Example session
+#
+# on receiver's terminal:
+# $ pls > file.txt
+#
+# on sender's terminal:
+# $ gib 192.168.1.2 < file.txt
+
+PLSPORT=42069
+PLSCERT=$HOME/.pls.pem
+
+function pls() {
+	if test ! -f $PLSCERT; then
+		openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out $PLSCERT -keyout $PLSCERT
+	fi
+	openssl s_server -accept $PLSPORT -naccept 1 -quiet -cert $PLSCERT -key $PLSCERT
+}
+
+function gib() {
+	openssl s_client -connect $1:$PLSPORT -quiet -no_ign_eof
 }
 
 export VISUAL=nano
