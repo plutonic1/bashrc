@@ -1,6 +1,6 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5b"
+	echo "bashrc version 0.5c"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -80,9 +80,9 @@ s(){
 }
 
 i(){
-	if which apt-get &> /dev/null; then
-		sudo apt-get install $*
-    elif which apt &> /dev/null; then
+	#if which apt-get &> /dev/null; then
+		#sudo apt-get install $*
+    if which apt &> /dev/null; then
         $(which sudo) apt install $* #hack for termux
 	elif which pacman &> /dev/null; then
 		sudo pacman -S $*
