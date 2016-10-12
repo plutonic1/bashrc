@@ -1,6 +1,6 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5c"
+	echo "bashrc version 0.5d"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -31,25 +31,24 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 alias a='tmux a'
 
-#taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
-
-alias mount='mount | column -t'
-
-# do not delete / or prompt if deleting more than 3 files at a time #
-alias rm='rm -I --preserve-root'
- 
-# confirmation #
-alias mv='mv -i'
-alias cp='cp -i'
-alias ln='ln -i'
- 
-# Parenting changing perms on / #
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chgrp='chgrp --preserve-root'
-
-
 if uname -a | grep -qv "cyanogenmod";	then
+		#taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+
+		alias mount='mount | column -t'
+
+		# do not delete / or prompt if deleting more than 3 files at a time #
+		alias rm='rm -I --preserve-root'
+
+		# confirmation #
+		alias mv='mv -i'
+		alias cp='cp -i'
+		alias ln='ln -i'
+
+		# Parenting changing perms on / #
+		alias chown='chown --preserve-root'
+		alias chmod='chmod --preserve-root'
+		alias chgrp='chgrp --preserve-root'
+
     # http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
     # Eternal bash history.
     # ---------------------
@@ -82,8 +81,8 @@ s(){
 i(){
 	#if which apt-get &> /dev/null; then
 		#sudo apt-get install $*
-    if which apt &> /dev/null; then
-        $(which sudo) apt install $* #hack for termux
+	if which apt &> /dev/null; then
+		$(which sudo) apt install $* #hack for termux
 	elif which pacman &> /dev/null; then
 		sudo pacman -S $*
 	fi
@@ -104,12 +103,6 @@ update() {
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
         updaterc
-    elif which apt-get &> /dev/null; then
-        #sudo apt-get update -y
-        #sudo apt-get upgrade -y
-        #sudo apt-get autoclean
-        #updaterc
-        false #only to prevent a syntax error
     elif which pacman &> /dev/null; then
         yaourt -Syu --aur
         updaterc
@@ -221,7 +214,7 @@ t4(){
         tmux attach -t $SESSION
         exit 0;
     fi
-                                    
+
     tmux new-session -d -s $SESSION
     tmux split-window -h -t $SESSION:0
     tmux split-window -h -t $SESSION:0
@@ -239,9 +232,9 @@ t2(){
         tmux attach -t $SESSION
         exit 0;
     fi
-                                    
+
     tmux new-session -d -s $SESSION
-    
+
     if [ $1 == 'v'  ]
     then
         tmux split-window -v -t $SESSION:0
