@@ -1,6 +1,6 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5d"
+	echo "bashrc version 0.5e"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -235,7 +235,7 @@ t2(){
 
     tmux new-session -d -s $SESSION
 
-    if [ $1 == 'v'  ]
+    if [ "$1" == "v"  ]
     then
         tmux split-window -v -t $SESSION:0
     else
