@@ -1,6 +1,6 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5e"
+	echo "bashrc version 0.5f"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -32,22 +32,22 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 alias a='tmux a'
 
 if uname -a | grep -qv "cyanogenmod";	then
-		#taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+    #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
-		alias mount='mount | column -t'
+    alias mount='mount | column -t'
 
-		# do not delete / or prompt if deleting more than 3 files at a time #
-		alias rm='rm -I --preserve-root'
+    # do not delete / or prompt if deleting more than 3 files at a time #
+    alias rm='rm -I --preserve-root'
 
-		# confirmation #
-		alias mv='mv -i'
-		alias cp='cp -i'
-		alias ln='ln -i'
+    # confirmation #
+    alias mv='mv -i'
+    alias cp='cp -i'
+    alias ln='ln -i'
 
-		# Parenting changing perms on / #
-		alias chown='chown --preserve-root'
-		alias chmod='chmod --preserve-root'
-		alias chgrp='chgrp --preserve-root'
+    # Parenting changing perms on / #
+    alias chown='chown --preserve-root'
+    alias chmod='chmod --preserve-root'
+    alias chgrp='chgrp --preserve-root'
 
     # http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
     # Eternal bash history.
@@ -65,9 +65,9 @@ if uname -a | grep -qv "cyanogenmod";	then
     PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 fi
 
-if [ -f ".aliases" ];
+if [ -f "$HOME/.aliases" ];
 then
-    . .aliases
+    source "$HOME/.aliases"
 fi
 
 s(){
@@ -111,15 +111,15 @@ update() {
 
 updaterc() {
 	if which curl &> /dev/null; then
-			rm ~/.bashrc
-			curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > ~/.bashrc
-			. ~/.bashrc
-		elif which wget &> /dev/null; then
-			rm ~/.bashrc
-			wget -O ~/.bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc
-			. ~/.bashrc
-		else
-			echo "no download tool found"
+        rm ~/.bashrc
+        curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > ~/.bashrc
+        . ~/.bashrc
+    elif which wget &> /dev/null; then
+        rm ~/.bashrc
+        wget -O ~/.bashrc https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc
+        . ~/.bashrc
+    else
+        echo "no download tool found"
 	fi
 }
 
