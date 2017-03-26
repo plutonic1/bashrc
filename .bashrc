@@ -1,10 +1,10 @@
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5f"
+	echo "bashrc version 0.5g"
 	export TERM=xterm #tmux workaround
 fi
 
-if uname -a | grep -qv "cyanogenmod";	then
+if uname -a | grep -qv "lineageos";	then
 	alias ls='ls --color'
 	alias ll='ls $LS_OPTIONS -l'
 	alias l='ls $LS_OPTIONS -lA'
@@ -31,7 +31,7 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
 alias a='tmux a'
 
-if uname -a | grep -qv "cyanogenmod";	then
+if uname -a | grep -qv "lineageos";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
     alias mount='mount | column -t'
