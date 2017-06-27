@@ -1,3 +1,5 @@
+shopt -s histverify
+
 if [ $TERM != 'dumb'  ]
 then
 	echo "bashrc version 0.5g"
