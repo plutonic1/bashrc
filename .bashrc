@@ -92,16 +92,15 @@ i(){
 }
 
 update() {
-	if which apt &> /dev/null; then
-        if which sudo &> /dev/null; then
-            sudo apt update -y
-            sudo apt upgrade -y
-            #sudo apt autoclean
-        else
-            apt update -y
-            apt upgrade -y
-            #apt autoclean
-        fi
+    if which pip &> /dev/null; then
+        pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs sudo pip install -U
+    fi
+
+    if which apt &> /dev/null; then
+     
+        $(which sudo) apt update -y
+        $(which sudo) apt upgrade -y
+        $(which sudo) apt autoclean
         updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
@@ -109,7 +108,7 @@ update() {
     elif which pacman &> /dev/null; then
         yaourt -Syu --aur
         updaterc
-	fi
+    fi
 }
 
 updaterc() {
