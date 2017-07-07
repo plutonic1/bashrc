@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5h"
+	echo "bashrc version 0.5i"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -92,9 +92,9 @@ i(){
 }
 
 update() {
-    if which pip &> /dev/null; then
+    #if which pip &> /dev/null; then
         #pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs sudo pip install -U
-    fi
+    #fi
 
     if which apt &> /dev/null; then
      
