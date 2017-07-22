@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.5i"
+	echo "bashrc version 0.6"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -247,29 +247,30 @@ t2(){
     tmux attach -t $SESSION
 }
 
-#pls+gib.sh from https://gist.github.com/AndrewBelt/89d1592cb39f544c7e1d
 
-# Example session
-#
-# on receiver's terminal:
-# $ pls > file.txt
-#
-# on sender's terminal:
-# $ gib 192.168.1.2 < file.txt
+if [[ $public_ip ]]; then 
+	#echo public ip
+	snd(){
+		tar c $1 | pv | gpg -e -r $private_mail | socat - TCP-LISTEN:7878
+	}
 
-PLSPORT=42069
-PLSCERT=$HOME/.pls.pem
+	rcv(){
+		socat - TCP-LISTEN:7878 | pv | gpg -d | tar x 
+	}
 
-function pls() {
-	if test ! -f $PLSCERT; then
-		openssl req -x509 -nodes -days 365 -newkey rsa:1024 -out $PLSCERT -keyout $PLSCERT
-	fi
-	openssl s_server -accept $PLSPORT -naccept 1 -quiet -cert $PLSCERT -key $PLSCERT
-}
 
-function gib() {
-	openssl s_client -connect $1:$PLSPORT -quiet -no_ign_eof
-}
+else
+	#echo "private ip"
+	snd(){
+        	tar c $1 | pv | gpg -e -r $server_mail | socat - TCP:$server:7878
+	}
+
+        rcv(){
+		socat - TCP:$server:7878 | pv | gpg -d | tar x
+        }
+
+fi
+	
 
 export VISUAL=nano
 export LANG=de_DE.UTF-8
