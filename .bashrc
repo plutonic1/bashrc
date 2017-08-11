@@ -2,11 +2,11 @@ shopt -s histverify
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.6"
+	echo "bashrc version 0.6a"
 	export TERM=xterm #tmux workaround
 fi
 
-if uname -a | grep -qv "lineageos";	then
+if uname -a | grep -qv "lineageos\|cyanogenmod";	then
 	alias ls='ls --color'
 	alias ll='ls $LS_OPTIONS -l'
 	alias l='ls $LS_OPTIONS -lA'
@@ -34,7 +34,8 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 alias a='tmux a'
 
 alias http='python3 -m http.server'
-if uname -a | grep -qv "lineageos";	then
+
+if uname -a | grep -qv "lineageos\|cyanogenmod";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
     alias mount='mount | column -t'
@@ -100,7 +101,8 @@ update() {
      
         $(which sudo) apt update -y
         $(which sudo) apt upgrade -y
-        $(which sudo) apt autoclean
+		$(which sudo) apt clean
+        $(which sudo) apt autoremove
         updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
@@ -135,25 +137,25 @@ key() {
 }
 
 r() {
-	echo reboot in ...
+	$(which sudo) echo reboot in ...
 
 	for i in {5..1}
 	do
 		echo -e "$i"
 		sleep 1
 	done
-	sudo reboot && exit
+	$(which sudo) reboot && exit
 }
 
 p() {
-	echo poweroff in ...
+	$(which sudo) echo poweroff in ...
 
 	for i in {10..1}
 	do
 		echo -e "$i"
 		sleep 1
 	done
-	sudo poweroff && exit
+	$(which sudo) poweroff && exit
 }
 
 k() {
