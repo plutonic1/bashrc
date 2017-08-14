@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.6a"
+	echo "bashrc version 0.6b"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -38,7 +38,7 @@ alias http='python3 -m http.server'
 if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
-    alias mount='mount | column -t'
+    #alias mount='mount | column -t'
 
     # do not delete / or prompt if deleting more than 3 files at a time #
     alias rm='rm -I --preserve-root'
@@ -83,26 +83,33 @@ s(){
 }
 
 i(){
-	#if which apt-get &> /dev/null; then
-		#sudo apt-get install $*
-	if which apt &> /dev/null; then
-		$(which sudo) apt install $* #hack for termux
+	if which pkg &> /dev/null; then
+		pkg install $*
+	if which apt-get &> /dev/null; then
+		sudo apt-get install $*
 	elif which pacman &> /dev/null; then
 		sudo pacman -S $*
 	fi
 }
 
-update() {
-    #if which pip &> /dev/null; then
-        #pip freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs sudo pip install -U
-    #fi
+update_pip()
+    if which pip2 &> /dev/null; then
+        pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip2 install -U
+		
+	if which pip3 &> /dev/null; then
+        pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip3 install -U
 
-    if which apt &> /dev/null; then
+update() {
+		
+	if which pkg &> /dev/null; then
+		pkg upgrade
+		updaterc
+    elif which apt-get &> /dev/null; then
      
-        $(which sudo) apt update -y
-        $(which sudo) apt upgrade -y
-		$(which sudo) apt clean
-        $(which sudo) apt autoremove
+        $(which sudo) apt-get update -y
+        $(which sudo) apt-get upgrade -y
+		$(which sudo) apt-get clean
+        $(which sudo) apt-get autoremove
         updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
@@ -190,22 +197,22 @@ extract() {
 }
 
 encrypt(){
-  echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
+	echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
 	if openssl aes-256-cbc -a -salt -in $1 -out $1.encrypt; then
-    shred -f --zero $1
-    rm -f $1
-  fi
+		shred -f --zero $1
+		rm -f $1
+	fi
 }
 
 decrypt(){
-  echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-  decrypt_filename=$(echo $1 | sed -r 's/.encrypt$//')
-  if openssl aes-256-cbc -d -a -in $1 -out $decrypt_filename; then
-    shred -f --zero $1
-    rm -f $1
-  else
-    rm -f $decrypt_filename
-  fi
+	echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
+	decrypt_filename=$(echo $1 | sed -r 's/.encrypt$//')
+	if openssl aes-256-cbc -d -a -in $1 -out $decrypt_filename; then
+		shred -f --zero $1
+		rm -f $1
+	else
+		rm -f $decrypt_filename
+	fi
 }
 
 
@@ -259,17 +266,15 @@ if [[ $public_ip ]]; then
 	rcv(){
 		socat - TCP-LISTEN:7878 | pv | gpg -d | tar x 
 	}
-
-
 else
 	#echo "private ip"
 	snd(){
         	tar c $1 | pv | gpg -e -r $server_mail | socat - TCP:$server:7878
 	}
 
-        rcv(){
+	rcv(){
 		socat - TCP:$server:7878 | pv | gpg -d | tar x
-        }
+	}
 
 fi
 	
