@@ -95,10 +95,11 @@ i(){
 update_pip()
     if which pip2 &> /dev/null; then
         pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip2 install -U
-		
+	fi
+	
 	if which pip3 &> /dev/null; then
         pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip3 install -U
-
+	fi
 update() {
 		
 	if which pkg &> /dev/null; then
