@@ -85,7 +85,7 @@ s(){
 i(){
 	if which pkg &> /dev/null; then
 		pkg install $*
-	if which apt-get &> /dev/null; then
+	elif which apt-get &> /dev/null; then
 		sudo apt-get install $*
 	elif which pacman &> /dev/null; then
 		sudo pacman -S $*
