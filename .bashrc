@@ -6,7 +6,7 @@ then
 	export TERM=xterm #tmux workaround
 fi
 
-if uname -a | grep -qv "lineageos\|cyanogenmod";	then
+if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
 	alias ls='ls --color'
 	alias ll='ls $LS_OPTIONS -l'
 	alias l='ls $LS_OPTIONS -lA'
@@ -35,7 +35,7 @@ alias a='tmux a'
 
 alias http='python3 -m http.server'
 
-if uname -a | grep -qv "lineageos\|cyanogenmod";	then
+if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
     alias mount='mount | column -t'
