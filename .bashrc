@@ -92,7 +92,7 @@ i(){
 	fi
 }
 
-update_pip()
+update_pip(){
     if which pip2 &> /dev/null; then
         pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip2 install -U
 	fi
@@ -100,6 +100,8 @@ update_pip()
 	if which pip3 &> /dev/null; then
         pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip3 install -U
 	fi
+}
+
 update() {
 		
 	if which pkg &> /dev/null; then
@@ -270,7 +272,7 @@ if [[ $public_ip ]]; then
 else
 	#echo "private ip"
 	snd(){
-        	tar c $1 | pv | gpg -e -r $server_mail | socat - TCP:$server:7878
+		tar c $1 | pv | gpg -e -r $server_mail | socat - TCP:$server:7878
 	}
 
 	rcv(){
@@ -278,7 +280,6 @@ else
 	}
 
 fi
-	
 
 export VISUAL=nano
 export LANG=de_DE.UTF-8
