@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ $TERM != 'dumb'  ]
 then
-	echo "bashrc version 0.6b"
+	echo "bashrc version 0.6d"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -34,6 +34,8 @@ alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 alias a='tmux a'
 
 alias http='python3 -m http.server'
+
+alias pw='head /dev/urandom | tr -dc A-Za-z0-9 | head -c20; echo'
 
 if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
@@ -74,8 +76,14 @@ then
     source "$HOME/.aliases"
 fi
 
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
 s(){
-	if which apt-cache &> /dev/null; then
+	if which pkg &> /dev/null; then
+		pkg search $1
+	elif which apt-cache &> /dev/null; then
 		apt-cache search $1
 	elif which pacman &> /dev/null; then
 		pacman -Ss $1
@@ -109,10 +117,10 @@ update() {
 		updaterc
     elif which apt-get &> /dev/null; then
      
-        $(which sudo) apt-get update -y
-        $(which sudo) apt-get upgrade -y
-		$(which sudo) apt-get clean
-        $(which sudo) apt-get autoremove
+        sudo apt-get update -y
+        sudo apt-get upgrade -y
+		sudo apt-get clean
+        sudo apt-get autoremove
         updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
@@ -137,6 +145,11 @@ updaterc() {
 	fi
 }
 
+#https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files/4643518#4643518
+pdfsearch() {
+    cmd="find . -name '*.pdf' -exec sh -c 'pdftotext \"{}\" - | grep --with-filename --label=\"{}\" --color \"$1\"' \;"
+    eval $cmd
+}
 
 geo() {
 	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
@@ -166,14 +179,6 @@ p() {
 		sleep 1
 	done
 	$(which sudo) poweroff && exit
-}
-
-k() {
-	if ! tmux ls | grep -q "copy"; then
-		tmux new -s copy
-	else
-		tmux a -t copy
-	fi
 }
 
 extract() {
@@ -218,6 +223,13 @@ decrypt(){
 	fi
 }
 
+k() {
+	if ! tmux ls | grep -q "copy"; then
+		tmux new -s copy
+	else
+		tmux a -t copy
+	fi
+}
 
 t4(){
     SESSION=2
