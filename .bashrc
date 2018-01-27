@@ -1,20 +1,9 @@
 shopt -s histverify
 
-if [ $TERM != 'dumb'  ]
+if [ "$TERM" != 'dumb'  ]
 then
-	echo "bashrc version 0.6d"
+	echo "bashrc version 0.7"
 	export TERM=xterm #tmux workaround
-fi
-
-if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
-	alias ls='ls --color'
-	alias ll='ls $LS_OPTIONS -l'
-	alias l='ls $LS_OPTIONS -lA'
-	alias last='last -i'
-
-	alias grep='grep --color=tty'
-	alias fgrep='fgrep --color=tty'
-	alias egrep='egrep --color=tty'
 fi
 
 alias vpn="sudo grep 'Learn:\|connection-reset' /var/log/openvpn"
@@ -22,8 +11,6 @@ alias vpn="sudo grep 'Learn:\|connection-reset' /var/log/openvpn"
 alias speedtest='wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test1000.zip'
 
 alias vnc='vncserver :1 -geometry 1600x900 -depth 24'
-
-alias h='history | grep $1'
 
 alias ipp='echo $(wget -qO- http://ipecho.net/plain)'
 
@@ -37,7 +24,7 @@ alias http='python3 -m http.server'
 
 alias pw='head /dev/urandom | tr -dc A-Za-z0-9 | head -c20; echo'
 
-if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
+if uname -a | grep -qv -E "lineageos";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
     #alias mount='mount | column -t'
@@ -69,6 +56,15 @@ if uname -a | grep -qv -E "lineageos|cyanogenmod";	then
     # Force prompt to write history after every command.
     # http://superuser.com/questions/20900/bash-history-loss
     PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+	
+	alias ls='ls --color'
+	alias ll='ls $LS_OPTIONS -l'
+	alias l='ls $LS_OPTIONS -lA'
+	alias last='last -i'
+
+	alias grep='grep --color=tty'
+	alias fgrep='fgrep --color=tty'
+	alias egrep='egrep --color=tty'
 fi
 
 if [ -f "$HOME/.aliases" ];
@@ -80,43 +76,36 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+h(){
+	history | grep "$1"
+}
+
 s(){
 	if which pkg &> /dev/null; then
-		pkg search $1
+		pkg search "$1"
 	elif which apt-cache &> /dev/null; then
-		apt-cache search $1
+		apt-cache search "$1"
 	elif which pacman &> /dev/null; then
-		pacman -Ss $1
+		pacman -Ss "$1"
 	fi
 }
 
 i(){
 	if which pkg &> /dev/null; then
-		pkg install $*
+		pkg install "$@"
 	elif which apt-get &> /dev/null; then
-		sudo apt-get install $*
+		sudo apt-get install "$@"
 	elif which pacman &> /dev/null; then
-		sudo pacman -S $*
+		sudo pacman -S "$@"
 	fi
 }
 
-update_pip(){
-    if which pip2 &> /dev/null; then
-        pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip2 install -U
-	fi
-	
-	if which pip3 &> /dev/null; then
-        pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs $(which sudo) pip3 install -U
-	fi
-}
-
-update() {
+u() {
 		
 	if which pkg &> /dev/null; then
 		pkg upgrade
 		updaterc
-    elif which apt-get &> /dev/null; then
-     
+    elif which apt-get &> /dev/null; then     
         sudo apt-get update -y
         sudo apt-get upgrade -y
 		sudo apt-get clean
@@ -129,6 +118,16 @@ update() {
         yaourt -Syu --aur
         updaterc
     fi
+}
+
+update_pip(){
+    if which pip2 &> /dev/null; then
+        pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs "$(which sudo)" pip2 install -U
+	fi
+	
+	if which pip3 &> /dev/null; then
+        pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs "$(which sudo)" pip3 install -U
+	fi
 }
 
 updaterc() {
@@ -148,15 +147,15 @@ updaterc() {
 #https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files/4643518#4643518
 pdfsearch() {
     cmd="find . -name '*.pdf' -exec sh -c 'pdftotext \"{}\" - | grep --with-filename --label=\"{}\" --color \"$1\"' \;"
-    eval $cmd
+    eval "$cmd"
 }
 
 geo() {
-	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "`nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}"`"
+	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "$(nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}")"
 }
 
 key() {
-	gpg --keyserver pgpkeys.mit.edu --recv-key $1
+	gpg --keyserver pgpkeys.mit.edu --recv-key "$1"
 }
 
 r() {
@@ -182,20 +181,20 @@ p() {
 }
 
 extract() {
-	if [ -f $1 ] ; then
-		case $1 in
-			*.tar.bz2)   tar xvjf $1    ;;
-			*.tar.gz)    tar xvzf $1    ;;
-			*.bz2)       bunzip2 $1     ;;
-			*.rar)       unrar x -kb $1 ;;
-			*.gz)        gunzip $1      ;;
-			*.tar)       tar xvf $1     ;;
-			*.tbz2)      tar xvjf $1    ;;
-			*.tgz)       tar xvzf $1    ;;
-			*.zip)       unzip $1       ;;
-			*.Z)         uncompress $1  ;;
-			*.7z)        7z x $1        ;;
-			*.xz)        tar --xz -xvf $1;;
+	if [ -f "$1" ] ; then
+		case "$1" in
+			*.tar.bz2)   tar xvjf "$1"    ;;
+			*.tar.gz)    tar xvzf "$1"    ;;
+			*.bz2)       bunzip2 "$1"     ;;
+			*.rar)       unrar x -kb "$1" ;;
+			*.gz)        gunzip "$1"      ;;
+			*.tar)       tar xvf "$1"     ;;
+			*.tbz2)      tar xvjf "$1"    ;;
+			*.tgz)       tar xvzf "$1"    ;;
+			*.zip)       unzip "$1"       ;;
+			*.Z)         uncompress "$1"  ;;
+			*.7z)        7z x "$1"        ;;
+			*.xz)        tar --xz -xvf "$1";;
 
 			*)           echo "don't know how to extract '$1'..." ;;
 		esac
@@ -206,20 +205,20 @@ extract() {
 
 encrypt(){
 	echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-	if openssl aes-256-cbc -a -salt -in $1 -out $1.encrypt; then
-		shred -f --zero $1
-		rm -f $1
+	if openssl aes-256-cbc -a -salt -in "$1" -out "$1".encrypt; then
+		shred -f --zero "$1"
+		rm -f "$1"
 	fi
 }
 
 decrypt(){
 	echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-	decrypt_filename=$(echo $1 | sed -r 's/.encrypt$//')
-	if openssl aes-256-cbc -d -a -in $1 -out $decrypt_filename; then
-		shred -f --zero $1
-		rm -f $1
+	decrypt_filename=$(echo "$1" | sed -r 's/.encrypt$//')
+	if openssl aes-256-cbc -d -a -in "$1" -out "$decrypt_filename"; then
+		shred -f --zero "$1"
+		rm -f "$1"
 	else
-		rm -f $decrypt_filename
+		rm -f "$decrypt_filename"
 	fi
 }
 
@@ -271,28 +270,6 @@ t2(){
     tmux attach -t $SESSION
 }
 
-
-if [[ $public_ip ]]; then 
-	#echo public ip
-	snd(){
-		tar c $1 | pv | gpg -e -r $private_mail | socat - TCP-LISTEN:7878
-	}
-
-	rcv(){
-		socat - TCP-LISTEN:7878 | pv | gpg -d | tar x 
-	}
-else
-	#echo "private ip"
-	snd(){
-		tar c $1 | pv | gpg -e -r $server_mail | socat - TCP:$server:7878
-	}
-
-	rcv(){
-		socat - TCP:$server:7878 | pv | gpg -d | tar x
-	}
-
-fi
-
 export VISUAL=nano
 export LANG=de_DE.UTF-8
 
@@ -300,16 +277,14 @@ export LANG=de_DE.UTF-8
 #export LS_COLORS
 
 # colored manpages
-if $_isxrunning; then
-	export PAGER=less
-	export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-	export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-	export LESS_TERMCAP_me=$'\E[0m'           # end mode
-	export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-	export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
-	export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-	export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
-fi
+export PAGER=less
+export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+export LESS_TERMCAP_me=$'\E[0m'           # end mode
+export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 Decoration1="\[\e[90m\]╔["
 RegularUserPart="\[\e[36m\]\u"
@@ -319,7 +294,7 @@ HostPart="\[\e[92m\]\h:"
 PathPart="\[\e[93;1m\]\w"
 Decoration2="\[\e[90m\]]\n╚>\[\e[m\]"
 
-case `id -u` in
+case $(id -u) in
     0) export PS1="$Decoration1$RootUserPart$Between$HostPart$PathPart$Decoration2# ";;
     *) export PS1="$Decoration1$RegularUserPart$Between$HostPart$PathPart$Decoration2$ ";;
 esac
