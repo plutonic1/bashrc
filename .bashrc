@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-	echo "bashrc version 0.7"
+	echo "bashrc version 0.7a"
 	export TERM=xterm #tmux workaround
 fi
 
@@ -23,6 +23,8 @@ alias a='tmux a'
 alias http='python3 -m http.server'
 
 alias pw='head /dev/urandom | tr -dc A-Za-z0-9 | head -c20; echo'
+
+alias dog='pygmentize -g' # https://stackoverflow.com/questions/7851134/syntax-highlighting-colorizing-cat/14799752#14799752
 
 if uname -a | grep -qv -E "lineageos";	then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
