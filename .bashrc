@@ -2,11 +2,11 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-	echo "bashrc version 0.7a"
-	export TERM=xterm #tmux workaround
+    echo "bashrc version 0.7b"
+    export TERM=xterm #tmux workaround
 fi
 
-alias vpn="sudo grep 'Learn:\|connection-reset' /var/log/openvpn"
+alias vpn="$(which sudo) grep 'Learn:\|connection-reset' /var/log/openvpn"
 
 alias speedtest='wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test1000.zip'
 
@@ -26,7 +26,7 @@ alias pw='head /dev/urandom | tr -dc A-Za-z0-9 | head -c20; echo'
 
 alias dog='pygmentize -g' # https://stackoverflow.com/questions/7851134/syntax-highlighting-colorizing-cat/14799752#14799752
 
-if uname -a | grep -qv -E "lineageos";	then
+if uname -a | grep -qv -E "lineageos"; then
     #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
     #alias mount='mount | column -t'
@@ -58,15 +58,15 @@ if uname -a | grep -qv -E "lineageos";	then
     # Force prompt to write history after every command.
     # http://superuser.com/questions/20900/bash-history-loss
     PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-	
-	alias ls='ls --color'
-	alias ll='ls $LS_OPTIONS -l'
-	alias l='ls $LS_OPTIONS -lA'
-	alias last='last -i'
+    
+    alias ls='ls --color'
+    alias ll='ls $LS_OPTIONS -l'
+    alias l='ls $LS_OPTIONS -lA'
+    alias last='last -i'
 
-	alias grep='grep --color=tty'
-	alias fgrep='fgrep --color=tty'
-	alias egrep='egrep --color=tty'
+    alias grep='grep --color=tty'
+    alias fgrep='fgrep --color=tty'
+    alias egrep='egrep --color=tty'
 fi
 
 if [ -f "$HOME/.aliases" ];
@@ -79,39 +79,39 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 h(){
-	history | grep "$1"
+    history | grep "$1"
 }
 
 s(){
-	if which pkg &> /dev/null; then
-		pkg search "$1"
-	elif which apt-cache &> /dev/null; then
-		apt-cache search "$1"
-	elif which pacman &> /dev/null; then
-		pacman -Ss "$1"
-	fi
+    if which pkg &> /dev/null; then
+        pkg search "$1"
+    elif which apt-cache &> /dev/null; then
+        apt-cache search "$1"
+    elif which pacman &> /dev/null; then
+        pacman -Ss "$1"
+    fi
 }
 
 i(){
-	if which pkg &> /dev/null; then
-		pkg install "$@"
-	elif which apt-get &> /dev/null; then
-		sudo apt-get install "$@"
-	elif which pacman &> /dev/null; then
-		sudo pacman -S "$@"
-	fi
+    if which pkg &> /dev/null; then
+        pkg install "$@"
+    elif which apt-get &> /dev/null; then
+        $(which sudo) apt-get install "$@"
+    elif which pacman &> /dev/null; then
+        $(which sudo) pacman -S "$@"
+    fi
 }
 
 u() {
-		
-	if which pkg &> /dev/null; then
-		pkg upgrade
-		updaterc
+        
+    if which pkg &> /dev/null; then
+        pkg upgrade
+        updaterc
     elif which apt-get &> /dev/null; then     
-        sudo apt-get update -y
-        sudo apt-get upgrade -y
-		sudo apt-get clean
-        sudo apt-get autoremove
+        $(which sudo) apt-get update -y
+        $(which sudo) apt-get upgrade -y
+        $(which sudo) apt-get clean
+        $(which sudo) apt-get autoremove
         updaterc
     elif which apt-cyg &> /dev/null; then
         apt-cyg update
@@ -125,15 +125,15 @@ u() {
 update_pip(){
     if which pip2 &> /dev/null; then
         pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs "$(which sudo)" pip2 install -U
-	fi
-	
-	if which pip3 &> /dev/null; then
+    fi
+
+    if which pip3 &> /dev/null; then
         pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1 | xargs "$(which sudo)" pip3 install -U
-	fi
+    fi
 }
 
 updaterc() {
-	if which curl &> /dev/null; then
+    if which curl &> /dev/null; then
         rm ~/.bashrc
         curl https://raw.githubusercontent.com/plutonic1/bashrc/master/.bashrc > ~/.bashrc
         . ~/.bashrc
@@ -143,7 +143,7 @@ updaterc() {
         . ~/.bashrc
     else
         echo "no download tool found"
-	fi
+    fi
 }
 
 #https://stackoverflow.com/questions/4643438/how-to-search-contents-of-multiple-pdf-files/4643518#4643518
@@ -153,83 +153,83 @@ pdfsearch() {
 }
 
 geo() {
-	curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "$(nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}")"
+    curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "$(nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}")"
 }
 
 key() {
-	gpg --keyserver pgpkeys.mit.edu --recv-key "$1"
+    gpg --keyserver pgpkeys.mit.edu --recv-key "$1"
 }
 
 r() {
-	$(which sudo) echo reboot in ...
+    $(which sudo) echo reboot in ...
 
-	for i in {5..1}
-	do
-		echo -e "$i"
-		sleep 1
-	done
-	$(which sudo) reboot && exit
+    for i in {5..1}
+    do
+        echo -e "$i"
+        sleep 1
+    done
+    $(which sudo) reboot && exit
 }
 
 p() {
-	$(which sudo) echo poweroff in ...
+    $(which sudo) echo poweroff in ...
 
-	for i in {10..1}
-	do
-		echo -e "$i"
-		sleep 1
-	done
-	$(which sudo) poweroff && exit
+    for i in {10..1}
+    do
+        echo -e "$i"
+        sleep 1
+    done
+    $(which sudo) poweroff && exit
 }
 
 extract() {
-	if [ -f "$1" ] ; then
-		case "$1" in
-			*.tar.bz2)   tar xvjf "$1"    ;;
-			*.tar.gz)    tar xvzf "$1"    ;;
-			*.bz2)       bunzip2 "$1"     ;;
-			*.rar)       unrar x -kb "$1" ;;
-			*.gz)        gunzip "$1"      ;;
-			*.tar)       tar xvf "$1"     ;;
-			*.tbz2)      tar xvjf "$1"    ;;
-			*.tgz)       tar xvzf "$1"    ;;
-			*.zip)       unzip "$1"       ;;
-			*.Z)         uncompress "$1"  ;;
-			*.7z)        7z x "$1"        ;;
-			*.xz)        tar --xz -xvf "$1";;
+    if [ -f "$1" ] ; then
+        case "$1" in
+            *.tar.bz2)   tar xvjf "$1"    ;;
+            *.tar.gz)    tar xvzf "$1"    ;;
+            *.bz2)       bunzip2 "$1"     ;;
+            *.rar)       unrar x -kb "$1" ;;
+            *.gz)        gunzip "$1"      ;;
+            *.tar)       tar xvf "$1"     ;;
+            *.tbz2)      tar xvjf "$1"    ;;
+            *.tgz)       tar xvzf "$1"    ;;
+            *.zip)       unzip "$1"       ;;
+            *.Z)         uncompress "$1"  ;;
+            *.7z)        7z x "$1"        ;;
+            *.xz)        tar --xz -xvf "$1";;
 
-			*)           echo "don't know how to extract '$1'..." ;;
-		esac
-	else
-		echo "'$1' is not a valid file!"
-	fi
+            *)           echo "don't know how to extract '$1'..." ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
 }
 
 encrypt(){
-	echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-	if openssl aes-256-cbc -a -salt -in "$1" -out "$1".encrypt; then
-		shred -f --zero "$1"
-		rm -f "$1"
-	fi
+    echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
+    if openssl aes-256-cbc -a -salt -in "$1" -out "$1".encrypt; then
+        shred -f --zero "$1"
+        rm -f "$1"
+    fi
 }
 
 decrypt(){
-	echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-	decrypt_filename=$(echo "$1" | sed -r 's/.encrypt$//')
-	if openssl aes-256-cbc -d -a -in "$1" -out "$decrypt_filename"; then
-		shred -f --zero "$1"
-		rm -f "$1"
-	else
-		rm -f "$decrypt_filename"
-	fi
+    echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
+    decrypt_filename=$(echo "$1" | sed -r 's/.encrypt$//')
+    if openssl aes-256-cbc -d -a -in "$1" -out "$decrypt_filename"; then
+        shred -f --zero "$1"
+        rm -f "$1"
+    else
+        rm -f "$decrypt_filename"
+    fi
 }
 
 k() {
-	if ! tmux ls | grep -q "copy"; then
-		tmux new -s copy
-	else
-		tmux a -t copy
-	fi
+    if ! tmux ls | grep -q "copy"; then
+        tmux new -s copy
+    else
+        tmux a -t copy
+    fi
 }
 
 t4(){
