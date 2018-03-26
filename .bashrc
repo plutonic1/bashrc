@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.7b"
+    echo "bashrc version 0.7c"
     export TERM=xterm #tmux workaround
 fi
 
@@ -18,7 +18,7 @@ alias ix='curl -F "f:1=<-" ix.io'
 
 alias last10='find . -type f -printf "%C+ %p\n" | sort -rn | head -n 10'
 
-alias a='tmux a'
+alias a='tmux a -t $1'
 
 alias http='python3 -m http.server'
 
@@ -26,48 +26,47 @@ alias pw='head /dev/urandom | tr -dc A-Za-z0-9 | head -c20; echo'
 
 alias dog='pygmentize -g' # https://stackoverflow.com/questions/7851134/syntax-highlighting-colorizing-cat/14799752#14799752
 
-if uname -a | grep -qv -E "lineageos"; then
-    #taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
+#taken from http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html
 
-    #alias mount='mount | column -t'
+#alias mount='mount | column -t'
 
-    # do not delete / or prompt if deleting more than 3 files at a time #
-    alias rm='rm -I --preserve-root'
+# do not delete / or prompt if deleting more than 3 files at a time #
+alias rm='rm -I --preserve-root'
 
-    # confirmation #
-    alias mv='mv -i'
-    alias cp='cp -i'
-    alias ln='ln -i'
+# confirmation #
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
 
-    # Parenting changing perms on / #
-    alias chown='chown --preserve-root'
-    alias chmod='chmod --preserve-root'
-    alias chgrp='chgrp --preserve-root'
+# Parenting changing perms on / #
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
 
-    # http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
-    # Eternal bash history.
-    # ---------------------
-    # Undocumented feature which sets the size to "unlimited".
-    # http://stackoverflow.com/questions/9457233/unlimited-bash-history
-    export HISTFILESIZE=
-    export HISTSIZE=
-    export HISTTIMEFORMAT="[%F %T] "
-    # Change the file location because certain bash sessions truncate .bash_history file upon close.
-    # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
-    export HISTFILE=~/.bash_eternal_history
-    # Force prompt to write history after every command.
-    # http://superuser.com/questions/20900/bash-history-loss
-    PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-    
-    alias ls='ls --color'
-    alias ll='ls $LS_OPTIONS -l'
-    alias l='ls $LS_OPTIONS -lA'
-    alias last='last -i'
+# http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-    alias grep='grep --color=tty'
-    alias fgrep='fgrep --color=tty'
-    alias egrep='egrep --color=tty'
-fi
+alias ls='ls --color'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+alias last='last -i'
+
+alias grep='grep --color=F'
+alias fgrep='fgrep --color=tty'
+alias egrep='egrep --color=tty'
+
 
 if [ -f "$HOME/.aliases" ];
 then
