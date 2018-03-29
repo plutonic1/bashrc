@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.7c"
+    echo "bashrc version 0.7d"
     export TERM=xterm #tmux workaround
 fi
 
@@ -63,10 +63,11 @@ alias ll='ls $LS_OPTIONS -l'
 alias l='ls $LS_OPTIONS -lA'
 alias last='last -i'
 
-alias grep='grep --color=F'
-alias fgrep='fgrep --color=tty'
-alias egrep='egrep --color=tty'
+#alias grep='grep --color=F'
+#alias fgrep='fgrep --color=tty'
+#alias egrep='egrep --color=tty'
 
+export GREP_OPTIONS='--color=auto'
 
 if [ -f "$HOME/.aliases" ];
 then
