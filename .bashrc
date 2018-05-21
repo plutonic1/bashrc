@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.7d"
+    echo "bashrc version 0.7e"
     export TERM=xterm #tmux workaround
 fi
 
@@ -67,7 +67,9 @@ alias last='last -i'
 #alias fgrep='fgrep --color=tty'
 #alias egrep='egrep --color=tty'
 
-export GREP_OPTIONS='--color=auto'
+if ! uname -a | grep -q "lineageos"; then
+	alias grep="grep --color=auto"
+fi
 
 if [ -f "$HOME/.aliases" ];
 then
@@ -161,7 +163,8 @@ key() {
 }
 
 r() {
-    $(which sudo) echo reboot in ...
+	$(which sudo) true
+    echo reboot in ...
 
     for i in {5..1}
     do
@@ -172,7 +175,8 @@ r() {
 }
 
 p() {
-    $(which sudo) echo poweroff in ...
+    $(which sudo) true
+	echo poweroff in ...
 
     for i in {10..1}
     do
