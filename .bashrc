@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.7e"
+    echo "bashrc version 0.7f"
     export TERM=xterm #tmux workaround
 fi
 
@@ -43,6 +43,13 @@ alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
+alias ls='ls --color'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+alias last='last -i'
+
+git config --global alias.pushall '!git remote | xargs -L1 git push --all'
+
 # http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
 # Eternal bash history.
 # ---------------------
@@ -57,11 +64,6 @@ export HISTFILE=~/.bash_eternal_history
 # Force prompt to write history after every command.
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-
-alias ls='ls --color'
-alias ll='ls $LS_OPTIONS -l'
-alias l='ls $LS_OPTIONS -lA'
-alias last='last -i'
 
 #alias grep='grep --color=F'
 #alias fgrep='fgrep --color=tty'
