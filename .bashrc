@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.7f"
+    echo "bashrc version 0.7g"
     export TERM=xterm #tmux workaround
 fi
 
@@ -30,9 +30,6 @@ alias dog='pygmentize -g' # https://stackoverflow.com/questions/7851134/syntax-h
 
 #alias mount='mount | column -t'
 
-# do not delete / or prompt if deleting more than 3 files at a time #
-alias rm='rm -I --preserve-root'
-
 # confirmation #
 alias mv='mv -i'
 alias cp='cp -i'
@@ -48,6 +45,7 @@ alias ll='ls $LS_OPTIONS -l'
 alias l='ls $LS_OPTIONS -lA'
 alias last='last -i'
 
+#https://stackoverflow.com/questions/5785549/able-to-push-to-all-git-remotes-with-the-one-command/18674313#18674313
 git config --global alias.pushall '!git remote | xargs -L1 git push --all'
 
 # http://superuser.com/questions/137438/how-to-unlimited-bash-shell-history
@@ -70,7 +68,8 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 #alias egrep='egrep --color=tty'
 
 if ! uname -a | grep -q "lineageos"; then
-	alias grep="grep --color=auto"
+	alias grep="grep --color=auto"	
+	alias rm='rm -I --preserve-root' # do not delete / or prompt if deleting more than 3 files at a time
 fi
 
 if [ -f "$HOME/.aliases" ];
