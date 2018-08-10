@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.7g"
+    echo "bashrc version 0.8"
     export TERM=xterm #tmux workaround
 fi
 
@@ -294,6 +294,7 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 Decoration1="\[\e[90m\]╔["
+DatePart="\[\e[39m\]\d \t "
 RegularUserPart="\[\e[36m\]\u"
 RootUserPart="\[\e[31;1m\]\u\[\e[m\]"
 Between="\[\e[37m\]@"
@@ -302,6 +303,6 @@ PathPart="\[\e[93;1m\]\w"
 Decoration2="\[\e[90m\]]\n╚>\[\e[m\]"
 
 case $(id -u) in
-    0) export PS1="$Decoration1$RootUserPart$Between$HostPart$PathPart$Decoration2# ";;
-    *) export PS1="$Decoration1$RegularUserPart$Between$HostPart$PathPart$Decoration2$ ";;
+    0) export PS1="$Decoration1$DatePart$RootUserPart$Between$HostPart$PathPart$Decoration2# ";;
+    *) export PS1="$Decoration1$DatePart$RegularUserPart$Between$HostPart$PathPart$Decoration2$ ";;
 esac
