@@ -56,6 +56,8 @@ git config --global alias.pushall '!git remote | xargs -L1 git push --all'
 export HISTFILESIZE=
 export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T] "
+# https://unix.stackexchange.com/questions/17574/is-there-a-maximum-size-to-the-bash-history-file
+shopt -s histappend
 # Change the file location because certain bash sessions truncate .bash_history file upon close.
 # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
 export HISTFILE=~/.bash_eternal_history
@@ -149,13 +151,11 @@ ssh_init() {
 git_init() {
 
 	LINES=$(ps aux | grep ssh-agent | wc -l)
-	PPKDIR=~/.ssh
-	PATTERN="\\.pub$"
+	GIT_KEY=~/.ssh/git
 	if [ "2" -gt $LINES ] ; then
 		ssh-agent -s > ~/.ssh-env-vars
 		. ~/.ssh-env-vars
-		ssh-add $PPKDIR/$key
-
+		ssh-add $GIT_KEY
 	else
 		. ~/.ssh-env-vars
 	fi
