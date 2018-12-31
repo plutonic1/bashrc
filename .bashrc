@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.8a"
+    echo "bashrc version 0.8b"
     export TERM=xterm #tmux workaround
 fi
 
@@ -56,8 +56,6 @@ git config --global alias.pushall '!git remote | xargs -L1 git push --all'
 export HISTFILESIZE=
 export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T] "
-# https://unix.stackexchange.com/questions/17574/is-there-a-maximum-size-to-the-bash-history-file
-shopt -s histappend
 # Change the file location because certain bash sessions truncate .bash_history file upon close.
 # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
 export HISTFILE=~/.bash_eternal_history
@@ -108,6 +106,10 @@ i(){
 }
 
 u() {
+
+    if uname -a | grep -q "lineageos"; then
+        export HISTSIZE=100000000000000000 #tmux workaround
+    fi
         
     if which pkg &> /dev/null; then
         pkg upgrade
