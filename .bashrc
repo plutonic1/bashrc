@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.8c"
+    echo "bashrc version 0.8d"
     export TERM=xterm #tmux workaround
 fi
 
@@ -325,6 +325,7 @@ t2(){
 
 transfer() {
     curl --progress-bar --upload-file "$1" https://plutonic.tk:8123/$(basename $1) | tee /dev/null;
+    echo -e ""
 }
 alias transfer=transfer
 
