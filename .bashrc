@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.8b"
+    echo "bashrc version 0.8c"
     export TERM=xterm #tmux workaround
 fi
 
@@ -63,6 +63,10 @@ export HISTFILE=~/.bash_eternal_history
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+
 #alias grep='grep --color=F'
 #alias fgrep='fgrep --color=tty'
 #alias egrep='egrep --color=tty'
@@ -80,6 +84,10 @@ fi
 # if [ -d "$HOME/bin" ] ; then
     # PATH="$HOME/bin:$PATH"
 # fi
+
+p(){
+    ps aux | grep "$1"
+}
 
 h(){
     history | grep "$1"
@@ -314,6 +322,11 @@ t2(){
 
     tmux attach -t $SESSION
 }
+
+transfer() {
+    curl --progress-bar --upload-file "$1" https://plutonic.tk:8123/$(basename $1) | tee /dev/null;
+}
+alias transfer=transfer
 
 export VISUAL=nano
 export LANG=de_DE.UTF-8
