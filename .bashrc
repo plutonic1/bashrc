@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.8e"
+    echo "bashrc version 0.8f"
     export TERM=xterm #tmux workaround
 fi
 
@@ -301,17 +301,31 @@ t2(){
 }
 
 transfer() {
-    address=$(curl -k --progress-bar --upload-file "$1" https://plutonic.tk:8123/$(basename $1) | tee /dev/null)    
+
+    if [[ -d $1 ]]; then
+        location="/tmp/$1.zip"
+        basename="$(basename $1).zip"
+        echo "basename: $basename"
+        zip -r $location $1        
+    elif [[ -f $1 ]]; then
+        location=$1
+        basename=$1
+    else
+        echo "$1 is not valid"
+        exit 1
+    fi
+
+    address=$(curl -k --progress-bar --upload-file "$location" https://plutonic.tk:8123/$(basename $basename) | tee /dev/null)    
     address_direct=$(echo $address | sed -e "s/8123\//8123\/get\//g")
     
     echo $address_direct
     
-    type xclip > /dev/null    
+    type xclip &> /dev/null    
     if [ $? -eq "0" ]; then
         echo $address_direct | xclip -selection Clipboard
     fi
     
-    type termux-set-clipboard > /dev/null    
+    type termux-set-clipboard &> /dev/null    
     if [ $? -eq "0" ]; then
         termux-clipboard-set $address_direct
     fi
