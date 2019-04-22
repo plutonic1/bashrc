@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.8d"
+    echo "bashrc version 0.8e"
     export TERM=xterm #tmux workaround
 fi
 
@@ -116,7 +116,7 @@ i(){
 u() {
 
     if uname -a | grep -q "lineageos"; then
-        export HISTSIZE=100000000000000000 #tmux workaround
+        export HISTSIZE=100000000000000000 #termux workaround
     fi
         
     if which pkg &> /dev/null; then
@@ -201,10 +201,6 @@ pdfsearch() {
     eval "$cmd"
 }
 
-geo() {
-    curl "https://maps.googleapis.com/maps/api/browserlocation/json?browser=firefox&key=AIzaSyDBgL8fm9bD8RLShATOLI1xKmFcZ4ieMkM&sensor=true" --data-urlencode "$(nmcli -f SSID,BSSID,SIGNAL dev wifi list | perl -ne "if(s/^(.+?)\s+(..:..:..:..:..:..)\s+(.+?)\s*$/&wifi=mac:\2|ssid:\1|ss:\3/g){print;}")"
-}
-
 key() {
     gpg --keyserver pgpkeys.mit.edu --recv-key "$1"
 }
@@ -221,17 +217,17 @@ r() {
     $(which sudo) reboot && exit
 }
 
-p() {
-    $(which sudo) true
-	echo poweroff in ...
-
-    for i in {10..1}
-    do
-        echo -e "$i"
-        sleep 1
-    done
-    $(which sudo) poweroff && exit
-}
+#p() {
+#    $(which sudo) true
+#	echo poweroff in ...
+#
+#   for i in {10..1}
+#    do
+#        echo -e "$i"
+#        sleep 1
+#    done
+#    $(which sudo) poweroff && exit
+#}
 
 extract() {
     if [ -f "$1" ] ; then
@@ -253,25 +249,6 @@ extract() {
         esac
     else
         echo "'$1' is not a valid file!"
-    fi
-}
-
-encrypt(){
-    echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-    if openssl aes-256-cbc -a -salt -in "$1" -out "$1".encrypt; then
-        shred -f --zero "$1"
-        rm -f "$1"
-    fi
-}
-
-decrypt(){
-    echo -e "\e[91mhandle with care! original file will be shredded\e[0m"
-    decrypt_filename=$(echo "$1" | sed -r 's/.encrypt$//')
-    if openssl aes-256-cbc -d -a -in "$1" -out "$decrypt_filename"; then
-        shred -f --zero "$1"
-        rm -f "$1"
-    else
-        rm -f "$decrypt_filename"
     fi
 }
 
@@ -324,7 +301,21 @@ t2(){
 }
 
 transfer() {
-    curl --progress-bar --upload-file "$1" https://plutonic.tk:8123/$(basename $1) | tee /dev/null;
+    address=$(curl -k --progress-bar --upload-file "$1" https://plutonic.tk:8123/$(basename $1) | tee /dev/null)    
+    address_direct=$(echo $address | sed -e "s/8123\//8123\/get\//g")
+    
+    echo $address_direct
+    
+    type xclip > /dev/null    
+    if [ $? -eq "0" ]; then
+        echo $address_direct | xclip -selection Clipboard
+    fi
+    
+    type termux-set-clipboard > /dev/null    
+    if [ $? -eq "0" ]; then
+        termux-clipboard-set $address_direct
+    fi
+    
     echo -e ""
 }
 alias transfer=transfer
