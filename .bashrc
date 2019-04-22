@@ -2,7 +2,7 @@ shopt -s histverify
 
 if [ "$TERM" != 'dumb'  ]
 then
-    echo "bashrc version 0.8f"
+    echo "bashrc version 0.9"
     export TERM=xterm #tmux workaround
 fi
 
@@ -34,11 +34,6 @@ alias dog='pygmentize -g' # https://stackoverflow.com/questions/7851134/syntax-h
 alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
-
-# Parenting changing perms on / #
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chgrp='chgrp --preserve-root'
 
 alias ls='ls --color'
 alias ll='ls $LS_OPTIONS -l'
@@ -74,6 +69,11 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 if ! uname -a | grep -q "lineageos"; then
 	alias grep="grep --color=auto"	
 	alias rm='rm -I --preserve-root' # do not delete / or prompt if deleting more than 3 files at a time
+	
+    # Parenting changing perms on / #
+    alias chown='chown --preserve-root'
+    alias chmod='chmod --preserve-root'
+    alias chgrp='chgrp --preserve-root'
 fi
 
 if [ -f "$HOME/.aliases" ];
