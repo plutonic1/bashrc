@@ -229,6 +229,11 @@ r() {
 #    $(which sudo) poweroff && exit
 #}
 
+fixlocale() {
+    sudo locale-gen de_DE.UTF-8
+    sudo update-locale LANG=de_DE.UTF-8
+}
+
 extract() {
     if [ -f "$1" ] ; then
         case "$1" in
